@@ -3,7 +3,9 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Github, Star, GitFork } from "lucide-react";
+import { ExternalLink, BookOpenText, Star, GitFork } from "lucide-react";
+import { resume } from "@/settings/resume";
+import { TechLogo } from "@/components/tech-logo";
 
 interface GitHubRepo {
     id: number;
@@ -21,53 +23,13 @@ interface Project {
     description: string;
     technologies: string[];
     features: string[];
-    liveUrl?: string;
+    liveUrl?: string | null;
     githubUrl?: string;
+    dataSource: string | null;
+    blogUrl: string | null;
 }
 
-const individualProjects: Project[] = [
-    {
-        title: "E-Commerce Platform",
-        description: "Full-stack e-commerce application with modern design and comprehensive features",
-        technologies: ["React", "Node.js", "PostgreSQL", "Stripe", "Tailwind CSS"],
-        features: [
-            "User authentication and authorization",
-            "Product catalog with search and filters",
-            "Shopping cart and checkout process",
-            "Payment integration with Stripe",
-            "Admin dashboard for inventory management"
-        ],
-        liveUrl: "https://example-ecommerce.com",
-        githubUrl: "https://github.com/username/ecommerce-platform"
-    },
-    {
-        title: "Task Management App",
-        description: "Collaborative project management tool with real-time updates",
-        technologies: ["Next.js", "TypeScript", "Prisma", "Socket.io", "shadcn/ui"],
-        features: [
-            "Real-time collaboration with Socket.io",
-            "Drag and drop task organization",
-            "Team management and permissions",
-            "File attachments and comments",
-            "Progress tracking and reporting"
-        ],
-        liveUrl: "https://example-taskapp.com",
-        githubUrl: "https://github.com/username/task-management"
-    },
-    {
-        title: "Weather Dashboard",
-        description: "Interactive weather application with detailed forecasts and visualizations",
-        technologies: ["Vue.js", "Chart.js", "Weather API", "Vuetify", "PWA"],
-        features: [
-            "Current weather and 7-day forecast",
-            "Interactive weather maps",
-            "Location-based weather detection",
-            "Weather charts and data visualization",
-            "Offline support with PWA capabilities"
-        ],
-        githubUrl: "https://github.com/username/weather-dashboard"
-    }
-];
+const individualProjects: Project[] = resume.projects;
 
 export default function Projects() {
     const [githubRepos, setGithubRepos] = useState<GitHubRepo[]>([]);
@@ -88,39 +50,6 @@ export default function Projects() {
                 setGithubRepos(repos);
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'Failed to load repositories');
-                // Fallback data for demo purposes
-                setGithubRepos([
-                    {
-                        id: 1,
-                        name: "awesome-project",
-                        description: "A full-stack web application built with modern technologies",
-                        html_url: "https://github.com/username/awesome-project",
-                        stargazers_count: 42,
-                        forks_count: 8,
-                        language: "TypeScript",
-                        updated_at: "2024-01-15T10:30:00Z"
-                    },
-                    {
-                        id: 2,
-                        name: "react-components",
-                        description: "Reusable React components library with TypeScript support",
-                        html_url: "https://github.com/username/react-components",
-                        stargazers_count: 28,
-                        forks_count: 5,
-                        language: "JavaScript",
-                        updated_at: "2024-01-10T14:20:00Z"
-                    },
-                    {
-                        id: 3,
-                        name: "api-server",
-                        description: "RESTful API server with authentication and database integration",
-                        html_url: "https://github.com/username/api-server",
-                        stargazers_count: 15,
-                        forks_count: 3,
-                        language: "Python",
-                        updated_at: "2024-01-08T09:45:00Z"
-                    }
-                ]);
             } finally {
                 setLoading(false);
             }
@@ -137,14 +66,14 @@ export default function Projects() {
                         Projects
                     </h1>
                     <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                        A showcase of my development work, from open-source contributions to personal projects
+                        A showcase of my development work
                     </p>
                 </div>
 
                 {/* GitHub Repositories Section */}
                 <section className="mb-16">
                     <div className="flex items-center gap-3 mb-8">
-                        <Github className="w-8 h-8 text-gray-900 dark:text-white" />
+                        <TechLogo tech='github' size={24} className="opacity-80 hover:opacity-100 transition-opacity rounded-md" />
                         <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
                             GitHub Repositories
                         </h2>
@@ -152,7 +81,7 @@ export default function Projects() {
                     
                     {loading ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {[...Array(3)].map((_, i) => (
+                            {[...Array(6)].map((_, i) => (
                                 <Card key={i} className="h-48 animate-pulse">
                                     <CardHeader>
                                         <div className="h-4 bg-gray-200 rounded w-3/4"></div>
@@ -173,7 +102,8 @@ export default function Projects() {
                                 <Card key={repo.id} className="h-48 flex flex-col hover:shadow-lg transition-shadow">
                                     <CardHeader className="flex-shrink-0">
                                         <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                                            <Github className="w-4 h-4" />
+                                            {/* <Github className="w-4 h-4" /> */}
+                                            <TechLogo tech='github' size={24} />
                                             {repo.name}
                                         </CardTitle>
                                         <CardDescription className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
@@ -236,7 +166,7 @@ export default function Projects() {
                     
                     <div className="space-y-6">
                         {individualProjects.map((project, index) => (
-                            <Card key={index} className="h-80 flex flex-col">
+                            <Card key={index} className="h-fit flex flex-col">
                                 <CardHeader className="flex-shrink-0">
                                     <div className="flex items-start justify-between">
                                         <div>
@@ -248,6 +178,20 @@ export default function Projects() {
                                             </CardDescription>
                                         </div>
                                         <div className="flex gap-2">
+                                            {/* data source */}
+                                            {project.dataSource && (
+                                                <Button asChild variant="outline" size="sm">
+                                                    <a 
+                                                        href={project.dataSource} 
+                                                        target="_blank" 
+                                                        rel="noopener noreferrer"
+                                                    >
+                                                        <TechLogo tech="kaggle" size={20}/>
+                                                        Kaggle
+                                                    </a>
+                                                </Button>
+                                            )}
+                                            {/* live url */}
                                             {project.liveUrl && (
                                                 <Button asChild variant="outline" size="sm">
                                                     <a 
@@ -260,6 +204,7 @@ export default function Projects() {
                                                     </a>
                                                 </Button>
                                             )}
+                                            {/* github */}
                                             {project.githubUrl && (
                                                 <Button asChild variant="outline" size="sm">
                                                     <a 
@@ -267,8 +212,21 @@ export default function Projects() {
                                                         target="_blank" 
                                                         rel="noopener noreferrer"
                                                     >
-                                                        <Github className="w-3 h-3 mr-1" />
+                                                        <TechLogo tech='github' size={16} />
                                                         Code
+                                                    </a>
+                                                </Button>
+                                            )}
+                                            {/* blog */}
+                                            {project.blogUrl && (
+                                                <Button asChild variant="outline" size="sm">
+                                                    <a 
+                                                        href={project.blogUrl} 
+                                                        target="_blank" 
+                                                        rel="noopener noreferrer"
+                                                    >
+                                                        <BookOpenText className="w-3 h-3 mr-1"/>
+                                                        Blog
                                                     </a>
                                                 </Button>
                                             )}
