@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { DarkModeProvider } from "@/lib/dark-mode-context";
+import { Navigation } from "@/components/navigation";
+import { Chatbot } from "@/components/chatbot";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -25,9 +28,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-gray-900 transition-colors`}
       >
-        {children}
+        <DarkModeProvider>
+          <div className="min-h-screen flex flex-col">
+            <Navigation />
+            
+            {/* Page Content */}
+            <main className="flex-1">
+              {children}
+            </main>
+            
+            {/* Chatbot */}
+            <Chatbot />
+          </div>
+        </DarkModeProvider>
       </body>
     </html>
   );
