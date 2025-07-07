@@ -86,7 +86,7 @@ export function Chatbot() {
                     {/* Messages */}
                     <div className="flex-1 p-4 overflow-y-auto space-y-2">
                         {messages.length === 0 && (
-                            <p className="text-gray-500 text-sm">Start a conversation...</p>
+                            <p className="text-gray-400 text-sm">Start a conversation...</p>
                         )}
                         {messages.map((message) => (
                             <div
@@ -94,14 +94,14 @@ export function Chatbot() {
                                 className={`p-2 rounded-lg max-w-[80%] ${
                                     message.isUser
                                         ? 'bg-blue-500 text-white ml-auto'
-                                        : 'bg-gray-100 text-gray-900'
+                                        : 'bg-gray-700 text-gray-200'
                                 }`}
                             >
                                 <p className="text-sm">{message.text}</p>
                             </div>
                         ))}
                         {isLoading && (
-                            <div className="bg-gray-100 text-gray-900 p-2 rounded-lg max-w-[80%]">
+                            <div className="bg-gray-700 text-gray-200 p-2 rounded-lg max-w-[80%]">
                                 <p className="text-sm">Typing...</p>
                             </div>
                         )}
