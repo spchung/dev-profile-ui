@@ -5,11 +5,11 @@ export async function POST(request: NextRequest) {
         const { message } = await request.json()
         
         return NextResponse.json({
-            response: 'hello world'
+            response: message
         })
     } catch (error) {
         return NextResponse.json(
-            { error: 'Invalid request' },
+            { error: error instanceof Error ? error.message : 'An unexpected error occurred' },
             { status: 400 }
         )
     }

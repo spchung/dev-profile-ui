@@ -176,7 +176,7 @@ export const resume = {
                 "Developed RAG application analyzing Sephora skincare database with OpenAI embeddings pipeline, enabling personalized product recommendations based on user needs",
                 "Implemented custom intent classification system with Qdrant vector database schema, optimizing search accuracy and query speed for different response types"
             ],
-            "liveUrl": null,
+            "liveUrl": "http://172.237.116.178/chat/",
             "technologies": [
                 "OpenAI API",
                 "LangGraph",
