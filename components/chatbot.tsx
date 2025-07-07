@@ -11,8 +11,12 @@ interface Message {
     timestamp: Date
 }
 
-export function Chatbot() {
-    const [isOpen, setIsOpen] = useState(false)
+interface ChatbotProps {
+    isOpen: boolean
+    onClose: () => void
+}
+
+export function Chatbot({ isOpen, onClose }: ChatbotProps) {
     const [messages, setMessages] = useState<Message[]>([])
     const [inputMessage, setInputMessage] = useState('')
     const [isLoading, setIsLoading] = useState(false)
@@ -66,27 +70,52 @@ export function Chatbot() {
 
     return (
         <>
-            {/* Floating Button */}
-            <Button
-                onClick={() => setIsOpen(!isOpen)}
-                className="fixed bottom-6 right-6 z-50 rounded-full w-14 h-14 shadow-lg"
-                size="icon"
-            >
-                {isOpen ? '✕' : '💬'}
-            </Button>
-
-            {/* Chat Window */}
+            {/* Large Chat Window - 1/4 screen space */}
             {isOpen && (
-                <Card className="fixed bottom-24 right-6 z-40 w-80 h-96 max-w-[25vw] max-h-[25vh] flex flex-col shadow-xl">
+                <Card className="fixed bottom-4 right-4 z-40 w-[600px] h-[800px] md:w-[600px] md:h-[800px] sm:w-[350px] sm:h-[500px] xs:w-[90vw] xs:h-[80vh] \
+                        xs:bottom-2 xs:right-2 flex flex-col pt-0 \
+                        "
+                    >
                     {/* Header */}
-                    <div className="p-4 border-b">
-                        <h3 className="font-semibold">Chat Assistant</h3>
+                    <div className="p-4 flex justify-between items-center bg-blue-600 text-white rounded-t-xl border-blue-500">
+                        <div className="flex items-center gap-2">
+                            <span className="text-lg">💼</span>
+                            <h3 className="font-semibold">Chat with Stephen&apos;s Resume</h3>
+                        </div>
+                        <Button
+                            onClick={onClose}
+                            variant="ghost"
+                            size="sm"
+                            className="text-white hover:bg-blue-700"
+                        >
+                            ✕
+                        </Button>
                     </div>
 
                     {/* Messages */}
                     <div className="flex-1 p-4 overflow-y-auto space-y-2">
                         {messages.length === 0 && (
-                            <p className="text-gray-400 text-sm">Start a conversation...</p>
+                            <div className="space-y-4">
+                                <p className="text-gray-400 text-sm">Ask me anything about Stephen&apos;s experience and background!</p>
+                                <div className="space-y-2">
+                                    <p className="text-xs text-gray-500 uppercase tracking-wide font-semibold">Suggested Questions:</p>
+                                    {[
+                                        "What&apos;s Stephen&apos;s experience with React and Next.js?",
+                                        "Tell me about his AI and machine learning projects",
+                                        "What technologies has he worked with at AMD?",
+                                        "What&apos;s his educational background?",
+                                        "What are his key achievements?"
+                                    ].map((question, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => setInputMessage(question)}
+                                            className="block text-left text-xs text-blue-400 hover:text-blue-300 bg-gray-800 hover:bg-gray-700 p-2 rounded border transition-colors w-full"
+                                        >
+                                            {question}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
                         )}
                         {messages.map((message) => (
                             <div

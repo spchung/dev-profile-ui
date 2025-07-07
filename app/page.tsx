@@ -4,9 +4,10 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, ExternalLink, BookOpenText, Star, GitFork } from "lucide-react";
+import { Download, ExternalLink, BookOpenText, Star, GitFork, MessageCircle } from "lucide-react";
 import { resume } from "@/settings/resume";
 import { TechLogo } from "@/components/tech-logo";
+import { Chatbot } from "@/components/chatbot";
 
 interface GitHubRepo {
     id: number;
@@ -29,14 +30,16 @@ const navigationItems: NavigationItem[] = [
     { id: "about", label: "About" },
     { id: "experience", label: "Experience" },
     { id: "education", label: "Education" },
-    { id: "projects", label: "Projects" }
+    { id: "projects", label: "Projects" },
+    { id: "resume", label: "Resume" }
 ];
 
 export default function Home() {
     const [activeSection, setActiveSection] = useState("about");
     const [githubRepos, setGithubRepos] = useState<GitHubRepo[]>([]);
     const [loading, setLoading] = useState(true);
-    const [, setError] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
+    const [isChatOpen, setIsChatOpen] = useState(false);
 
     useEffect(() => {
         const fetchGithubRepos = async () => {
@@ -140,6 +143,18 @@ export default function Home() {
                             </li>
                         ))}
                     </ul>
+                    
+                    {/* Chat Button */}
+                    <div className="mt-6 pt-6 border-t border-gray-700">
+                        <Button
+                            onClick={() => setIsChatOpen(true)}
+                            className="w-full bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2"
+                            size="lg"
+                        >
+                            <MessageCircle className="w-4 h-4" />
+                            Chat with Resume
+                        </Button>
+                    </div>
                 </nav>
 
                 {/* Contact Info */}
@@ -531,6 +546,12 @@ export default function Home() {
 
                 </div>
             </div>
+            
+            {/* Enhanced Chatbot */}
+            <Chatbot 
+                isOpen={isChatOpen} 
+                onClose={() => setIsChatOpen(false)} 
+            />
         </div>
     );
 }
