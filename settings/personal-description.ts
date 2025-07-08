@@ -1,0 +1,3 @@
+export const personal = {
+    "profile": "A versatile full-stack developer with over four years of professional experience building scalable web applications, mobile solutions, and backend systems across diverse industries. Currently pursuing MSc in Computer Science with a focus on Artificial Intelligence at the University of Nottingham, bringing a unique combination of practical industry experience and cutting-edge academic knowledge.",
+}

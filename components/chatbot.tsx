@@ -72,8 +72,8 @@ export function Chatbot({ isOpen, onClose }: ChatbotProps) {
         <>
             {/* Large Chat Window - 1/4 screen space */}
             {isOpen && (
-                <Card className="fixed bottom-4 right-4 z-40 w-[600px] h-[800px] md:w-[600px] md:h-[800px] sm:w-[350px] sm:h-[500px] xs:w-[90vw] xs:h-[80vh] \
-                        xs:bottom-2 xs:right-2 flex flex-col pt-0 \
+                <Card className="fixed bottom-4 left-4 z-40 w-[600px] h-[800px] md:w-[600px] md:h-[800px] sm:w-[350px] sm:h-[500px] xs:w-[90vw] xs:h-[80vh] \
+                        xs:bottom-2 xs:left-2 flex flex-col pt-0 \
                         "
                     >
                     {/* Header */}
@@ -100,11 +100,10 @@ export function Chatbot({ isOpen, onClose }: ChatbotProps) {
                                 <div className="space-y-2">
                                     <p className="text-xs text-gray-500 uppercase tracking-wide font-semibold">Suggested Questions:</p>
                                     {[
-                                        "What&apos;s Stephen&apos;s experience with React and Next.js?",
+                                        "What's Stephen's experience with React and Next.js?",
                                         "Tell me about his AI and machine learning projects",
                                         "What technologies has he worked with at AMD?",
-                                        "What&apos;s his educational background?",
-                                        "What are his key achievements?"
+                                        "What's his educational background?",
                                     ].map((question, index) => (
                                         <button
                                             key={index}

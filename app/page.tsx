@@ -31,7 +31,6 @@ const navigationItems: NavigationItem[] = [
     { id: "experience", label: "Experience" },
     { id: "education", label: "Education" },
     { id: "projects", label: "Projects" },
-    { id: "resume", label: "Resume" }
 ];
 
 export default function Home() {
@@ -44,7 +43,7 @@ export default function Home() {
     useEffect(() => {
         const fetchGithubRepos = async () => {
             try {
-                const response = await fetch('https://api.github.com/users/spchung/repos?sort=updated&per_page=6');
+                const response = await fetch('https://api.github.com/users/spchung/repos?sort=updated&per_page=3');
                 if (!response.ok) {
                     throw new Error('Failed to fetch repositories');
                 }
@@ -126,7 +125,7 @@ export default function Home() {
                 </div>
 
                 {/* Navigation */}
-                <nav className="flex-1 p-6">
+                <nav className="flex-1 p-6 flex flex-col justify-between">
                     <ul className="space-y-2">
                         {navigationItems.map((item) => (
                             <li key={item.id}>
@@ -145,7 +144,7 @@ export default function Home() {
                     </ul>
                     
                     {/* Chat Button */}
-                    <div className="mt-6 pt-6 border-t border-gray-700">
+                    <div className="mt-6 pt-6  flex flex-col justify-end">
                         <Button
                             onClick={() => setIsChatOpen(true)}
                             className="w-full bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2"
@@ -214,20 +213,26 @@ export default function Home() {
                     </nav>
                 </div>
                 
+                {/* Content */}
                 <div className="max-w-4xl mx-auto p-4 md:p-8 space-y-16">
                     {/* About Section */}
                     <section id="about" className="scroll-mt-8">
-                        <h2 className="text-3xl font-bold text-white mb-8">
-                            About Me
-                        </h2>
                         <div className="prose prose-lg prose-invert max-w-none">
                             <p className="text-gray-300 leading-relaxed">
                                 {resume.summary}
                             </p>
+                            <br/>
+                            <p>
+                                Currently....
+                            </p>
+                            <br/>
+                            <p>
+                                I've created AI Projects like <span onClick={() => scrollToSection('projects')} className="cursor-pointer"> Skincare GPT </span>
+                            </p>
                         </div>
                         
                         {/* Skills */}
-                        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="mt-12 grid grid-cols-1 gap-8">
                             <div>
                                 <h3 className="text-xl font-semibold text-white mb-4">Frontend</h3>
                                 <div className="flex flex-wrap gap-2">
@@ -371,81 +376,74 @@ export default function Home() {
                         
                         {/* GitHub Repositories */}
                         <div className="mb-12">
-                            <div className="flex items-center gap-3 mb-6">
-                                <TechLogo tech='github' size={24} className="opacity-80 hover:opacity-100 transition-opacity rounded-md" />
-                                <h3 className="text-2xl font-bold text-white">
-                                    GitHub Repositories
-                                </h3>
-                            </div>
-                            
-                            {loading ? (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    {[...Array(6)].map((_, i) => (
-                                        <Card key={i} className="h-48 animate-pulse">
-                                            <CardHeader>
-                                                <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                        {loading ? (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {[...Array(3)].map((_, i) => (
+                                    <Card key={i} className="h-48 animate-pulse">
+                                        <CardHeader>
+                                            <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                                            <div className="h-3 bg-gray-200 rounded w-full"></div>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <div className="space-y-2">
                                                 <div className="h-3 bg-gray-200 rounded w-full"></div>
-                                            </CardHeader>
-                                            <CardContent>
-                                                <div className="space-y-2">
-                                                    <div className="h-3 bg-gray-200 rounded w-full"></div>
-                                                    <div className="h-3 bg-gray-200 rounded w-2/3"></div>
-                                                </div>
-                                            </CardContent>
-                                        </Card>
-                                    ))}
-                                </div>
-                            ) : (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    {githubRepos.map((repo) => (
-                                        <Card key={repo.id} className="h-48 flex flex-col hover:shadow-lg transition-shadow">
-                                            <CardHeader className="flex-shrink-0">
-                                                <CardTitle className="text-lg font-semibold text-white flex items-center gap-2">
-                                                    <TechLogo tech='github' size={20} />
-                                                    {repo.name}
-                                                </CardTitle>
-                                                <CardDescription className="text-sm text-gray-300 line-clamp-2">
-                                                    {repo.description || "No description available"}
-                                                </CardDescription>
-                                            </CardHeader>
-                                            <CardContent className="flex-1 flex flex-col justify-between">
-                                                <div className="flex items-center gap-4 text-sm text-gray-400 mb-3">
-                                                    {repo.language && (
-                                                        <span className="flex items-center gap-1">
-                                                            <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
-                                                            {repo.language}
-                                                        </span>
-                                                    )}
+                                                <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {githubRepos.map((repo) => (
+                                    <Card key={repo.id} className="h-48 flex flex-col hover:shadow-lg transition-shadow">
+                                        <CardHeader className="flex-shrink-0">
+                                            <CardTitle className="text-lg font-semibold text-white flex items-center gap-2">
+                                                <TechLogo tech='github' size={20} className="p-0.5 bg-foreground rounded-lg" />
+                                                {repo.name}
+                                            </CardTitle>
+                                            <CardDescription className="text-sm text-gray-300 line-clamp-1 text-nowrap text-ellipsis">
+                                                {repo.description || "No description available"}
+                                            </CardDescription>
+                                        </CardHeader>
+                                        <CardContent className="flex-1 flex flex-col justify-between">
+                                            <div className="flex items-center gap-4 text-sm text-gray-400 mb-3">
+                                                {repo.language && (
                                                     <span className="flex items-center gap-1">
-                                                        <Star className="w-3 h-3" />
-                                                        {repo.stargazers_count}
+                                                        <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
+                                                        {repo.language}
                                                     </span>
-                                                    <span className="flex items-center gap-1">
-                                                        <GitFork className="w-3 h-3" />
-                                                        {repo.forks_count}
-                                                    </span>
-                                                </div>
-                                                <Button 
-                                                    asChild 
-                                                    variant="outline" 
-                                                    size="sm"
-                                                    className="w-full"
+                                                )}
+                                                <span className="flex items-center gap-1">
+                                                    <Star className="w-3 h-3" />
+                                                    {repo.stargazers_count}
+                                                </span>
+                                                <span className="flex items-center gap-1">
+                                                    <GitFork className="w-3 h-3" />
+                                                    {repo.forks_count}
+                                                </span>
+                                            </div>
+                                            <Button 
+                                                asChild 
+                                                variant="outline" 
+                                                size="sm"
+                                                className="w-full"
+                                            >
+                                                <a 
+                                                    href={repo.html_url} 
+                                                    target="_blank" 
+                                                    rel="noopener noreferrer"
+                                                    className="flex items-center gap-2"
                                                 >
-                                                    <a 
-                                                        href={repo.html_url} 
-                                                        target="_blank" 
-                                                        rel="noopener noreferrer"
-                                                        className="flex items-center gap-2"
-                                                    >
-                                                        <ExternalLink className="w-3 h-3" />
-                                                        View Repository
-                                                    </a>
-                                                </Button>
-                                            </CardContent>
-                                        </Card>
-                                    ))}
-                                </div>
-                            )}
+                                                    <ExternalLink className="w-3 h-3" />
+                                                    View Repository
+                                                </a>
+                                            </Button>
+                                        </CardContent>
+                                    </Card>
+                                ))}
+                            </div>
+                        )}
                         </div>
 
                         {/* Featured Projects */}
@@ -486,7 +484,7 @@ export default function Home() {
                                                     {project.githubUrl && (
                                                         <Button asChild variant="outline" size="sm">
                                                             <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                                                                <TechLogo tech='github' size={16} />
+                                                                <TechLogo tech='github' size={16} className="p-0.5 bg-foreground rounded-lg"/>
                                                                 Code
                                                             </a>
                                                         </Button>
